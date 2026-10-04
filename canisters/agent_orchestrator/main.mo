@@ -30,54 +30,52 @@ actor QmoosaAgentOrchestrator {
 
     let models = HashMap.HashMap<Text, ModelRoute>(10, Text.equal, Text.hash);
 
-    system func init() {
-        let m1 : ModelRoute = {
-            model_id = "icp-onchain-llm";
-            provider = "DFINITY Canister Native Inference";
-            latency_ms = 450;
-            cost_per_token = 10;
-            is_active = true;
-        };
-        let m2 : ModelRoute = {
-            model_id = "claude-3-5-sonnet";
-            provider = "Anthropic (via ICP HTTPS Outcalls)";
-            latency_ms = 850;
-            cost_per_token = 150;
-            is_active = true;
-        };
-        let m3 : ModelRoute = {
-            model_id = "gpt-4o";
-            provider = "OpenAI (via ICP HTTPS Outcalls)";
-            latency_ms = 920;
-            cost_per_token = 200;
-            is_active = true;
-        };
-        let m4 : ModelRoute = {
-            model_id = "gemini-1-5-pro";
-            provider = "Google (via ICP HTTPS Outcalls)";
-            latency_ms = 800;
-            cost_per_token = 120;
-            is_active = true;
-        };
-
-        models.put(m1.model_id, m1);
-        models.put(m2.model_id, m2);
-        models.put(m3.model_id, m3);
-        models.put(m4.model_id, m4);
-
-        // Seed initial audit log
-        log_counter += 1;
-        let init_log : ActionLog = {
-            log_id = log_counter;
-            timestamp = Time.now();
-            agent = "Blockchain Agent";
-            action_type = "ICRC_LEDGER_HEALTH_CHECK";
-            details = "Verified ICRC-1/2/3 ledger integrity, total supply balance, and cycle reserve levels.";
-            requires_approval = false;
-            approved_by = ?"System Auto-Policy";
-        };
-        action_history := [init_log];
+    let m1 : ModelRoute = {
+        model_id = "icp-onchain-llm";
+        provider = "DFINITY Canister Native Inference";
+        latency_ms = 450;
+        cost_per_token = 10;
+        is_active = true;
     };
+    let m2 : ModelRoute = {
+        model_id = "claude-3-5-sonnet";
+        provider = "Anthropic (via ICP HTTPS Outcalls)";
+        latency_ms = 850;
+        cost_per_token = 150;
+        is_active = true;
+    };
+    let m3 : ModelRoute = {
+        model_id = "gpt-4o";
+        provider = "OpenAI (via ICP HTTPS Outcalls)";
+        latency_ms = 920;
+        cost_per_token = 200;
+        is_active = true;
+    };
+    let m4 : ModelRoute = {
+        model_id = "gemini-1-5-pro";
+        provider = "Google (via ICP HTTPS Outcalls)";
+        latency_ms = 800;
+        cost_per_token = 120;
+        is_active = true;
+    };
+
+    models.put(m1.model_id, m1);
+    models.put(m2.model_id, m2);
+    models.put(m3.model_id, m3);
+    models.put(m4.model_id, m4);
+
+    // Seed initial audit log
+    log_counter += 1;
+    let init_log : ActionLog = {
+        log_id = log_counter;
+        timestamp = Time.now();
+        agent = "Blockchain Agent";
+        action_type = "ICRC_LEDGER_HEALTH_CHECK";
+        details = "Verified ICRC-1/2/3 ledger integrity, total supply balance, and cycle reserve levels.";
+        requires_approval = false;
+        approved_by = ?"System Auto-Policy";
+    };
+    action_history := [init_log];
 
     public query func get_models() : async [ModelRoute] {
         var list : [ModelRoute] = [];

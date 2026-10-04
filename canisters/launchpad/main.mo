@@ -39,29 +39,27 @@ actor QmoosaLaunchpad {
     stable var token_counter : Nat = 0;
     var launched_tokens : [LaunchpadToken] = [];
 
-    system func init() {
-        token_counter += 1;
-        let genesis_ai_token : LaunchpadToken = {
-            token_id = token_counter;
-            name = "Conway Autonomous AI Token";
-            symbol = "CAAI";
-            decimals = 8;
-            initial_supply = 500_000_000_00000000;
-            model = #GovernanceControlled;
-            creator = "Qmoosa Autonomous Engine";
-            canister_id = "rrkah-fqaaa-aaaaa-aaaaq-cai";
-            vesting = ?{
-                total_amount = 100_000_000_00000000;
-                cliff_days = 90;
-                duration_days = 365;
-                released_amount = 0;
-                start_timestamp = Time.now();
-            };
-            created_at = Time.now();
-            status = "Live on ICP";
+    token_counter += 1;
+    let genesis_ai_token : LaunchpadToken = {
+        token_id = token_counter;
+        name = "Conway Autonomous AI Token";
+        symbol = "CAAI";
+        decimals = 8;
+        initial_supply = 500_000_000_00000000;
+        model = #GovernanceControlled;
+        creator = "Qmoosa Autonomous Engine";
+        canister_id = "staging-caai-canister";
+        vesting = ?{
+            total_amount = 100_000_000_00000000;
+            cliff_days = 90;
+            duration_days = 365;
+            released_amount = 0;
+            start_timestamp = Time.now();
         };
-        launched_tokens := [genesis_ai_token];
+        created_at = Time.now();
+        status = "Local Staging Demo";
     };
+    launched_tokens := [genesis_ai_token];
 
     public func create_token(args : {
         name : Text;

@@ -24,9 +24,7 @@ actor QmoosaToken {
   let allowances = HashMap.HashMap<Text, Nat>(100, Text.equal, Text.hash);
   var transaction_log : [Transaction] = [];
 
-  system func init() {
-    balances.put(Principal.toText(Principal.fromActor(QmoosaToken)), total_circulating_supply);
-  };
+  balances.put("2vxsx-fae", total_circulating_supply);
 
   public query func icrc1_name() : async Text { token_name };
   public query func icrc1_symbol() : async Text { token_symbol };

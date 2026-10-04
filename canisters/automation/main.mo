@@ -30,50 +30,48 @@ actor QmoosaAutomation {
     let jobs = HashMap.HashMap<Nat, ScheduledJob>(20, Nat.equal, Nat.hash);
     var trigger_history : [TriggerLog] = [];
 
-    system func init() {
-        // Seed default critical ICP native timer automations
-        let j1 : ScheduledJob = {
-            job_id = 1;
-            name = "Hourly Cycles Reserve Sentinel";
-            interval_seconds = 3600;
-            target_action = "MONITOR_CANISTER_CYCLES";
-            is_active = true;
-            last_triggered_at = Time.now();
-            execution_count = 24;
-        };
-        let j2 : ScheduledJob = {
-            job_id = 2;
-            name = "Daily DAO Treasury & Vesting Reconciler";
-            interval_seconds = 86400;
-            target_action = "RECONCILE_TREASURY_LEDGER";
-            is_active = true;
-            last_triggered_at = Time.now();
-            execution_count = 7;
-        };
-        let j3 : ScheduledJob = {
-            job_id = 3;
-            name = "x402 Micropayment Settlement Cleaner";
-            interval_seconds = 600;
-            target_action = "EXPIRE_STALE_INVOICES";
-            is_active = true;
-            last_triggered_at = Time.now();
-            execution_count = 144;
-        };
-
-        job_counter := 3;
-        total_executions := 175;
-        jobs.put(j1.job_id, j1);
-        jobs.put(j2.job_id, j2);
-        jobs.put(j3.job_id, j3);
-
-        let init_log : TriggerLog = {
-            job_id = 1;
-            timestamp = Time.now();
-            status = "SUCCESS";
-            details = "All canisters above 4.5 Trillion cycles safety threshold.";
-        };
-        trigger_history := [init_log];
+    // Seed default critical ICP native timer automations
+    let j1 : ScheduledJob = {
+        job_id = 1;
+        name = "Hourly Cycles Reserve Sentinel";
+        interval_seconds = 3600;
+        target_action = "MONITOR_CANISTER_CYCLES";
+        is_active = true;
+        last_triggered_at = Time.now();
+        execution_count = 24;
     };
+    let j2 : ScheduledJob = {
+        job_id = 2;
+        name = "Daily DAO Treasury & Vesting Reconciler";
+        interval_seconds = 86400;
+        target_action = "RECONCILE_TREASURY_LEDGER";
+        is_active = true;
+        last_triggered_at = Time.now();
+        execution_count = 7;
+    };
+    let j3 : ScheduledJob = {
+        job_id = 3;
+        name = "x402 Micropayment Settlement Cleaner";
+        interval_seconds = 600;
+        target_action = "EXPIRE_STALE_INVOICES";
+        is_active = true;
+        last_triggered_at = Time.now();
+        execution_count = 144;
+    };
+
+    job_counter := 3;
+    total_executions := 175;
+    jobs.put(j1.job_id, j1);
+    jobs.put(j2.job_id, j2);
+    jobs.put(j3.job_id, j3);
+
+    let init_log : TriggerLog = {
+        job_id = 1;
+        timestamp = Time.now();
+        status = "SUCCESS";
+        details = "All canisters above 4.5 Trillion cycles safety threshold.";
+    };
+    trigger_history := [init_log];
 
     public query func get_jobs() : async [ScheduledJob] {
         var list : [ScheduledJob] = [];

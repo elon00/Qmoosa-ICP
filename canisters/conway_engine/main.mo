@@ -22,19 +22,17 @@ actor QmoosaConwayEngine {
     // Sparse grid storage: "x,y" -> energy
     let live_cells = HashMap.HashMap<Text, Nat>(400, Text.equal, Text.hash);
 
-    system func init() {
-        // Seed default glider + beacon pattern
-        live_cells.put("1,0", 100);
-        live_cells.put("2,1", 100);
-        live_cells.put("0,2", 100);
-        live_cells.put("1,2", 100);
-        live_cells.put("2,2", 100);
+    // Seed default glider + beacon pattern
+    live_cells.put("1,0", 100);
+    live_cells.put("2,1", 100);
+    live_cells.put("0,2", 100);
+    live_cells.put("1,2", 100);
+    live_cells.put("2,2", 100);
 
-        live_cells.put("10,10", 100);
-        live_cells.put("10,11", 100);
-        live_cells.put("11,10", 100);
-        live_cells.put("11,11", 100);
-    };
+    live_cells.put("10,10", 100);
+    live_cells.put("10,11", 100);
+    live_cells.put("11,10", 100);
+    live_cells.put("11,11", 100);
 
     func cell_key(x : Nat, y : Nat) : Text {
         Nat.toText(x) # "," # Nat.toText(y);
