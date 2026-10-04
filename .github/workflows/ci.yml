@@ -1,0 +1,42 @@
+name: Qmoosa ICP CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  test-and-build:
+    name: Build & Verify Canisters + Frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: |
+          npm --prefix frontend install
+          npm install
+
+      - name: Run Node Unit Tests
+        run: npm test
+
+      - name: Run PocketIC Multi-Canister Verification
+        run: npm run test:pocketic
+
+      - name: Build Web4 Frontend
+        run: npm run build
+
+      - name: Verify Post-Quantum ML-DSA Manifest
+        run: node scripts/pqc-manifest-signer.js
+
+      - name: Verify x402 Micropayment Protocol
+        run: node scripts/simulate-x402.js
