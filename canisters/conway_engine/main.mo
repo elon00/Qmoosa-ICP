@@ -20,7 +20,7 @@ actor QmoosaConwayEngine {
     stable var active_rule : Text = "B3/S23 + Evolutionary Fitness";
 
     // Sparse grid storage: "x,y" -> energy
-    let live_cells = HashMap.HashMap<Text, Nat>(400, Text.equal, Text.hash);
+    var live_cells = HashMap.HashMap<Text, Nat>(400, Text.equal, Text.hash);
 
     // Seed default glider + beacon pattern
     live_cells.put("1,0", 100);
@@ -88,7 +88,7 @@ actor QmoosaConwayEngine {
     };
 
     public func seed_grid(pattern_type : Text) : async SimulationState {
-        live_cells.clear();
+        live_cells := HashMap.HashMap<Text, Nat>(400, Text.equal, Text.hash);
         current_gen := 0;
 
         if (pattern_type == "glider") {
@@ -122,7 +122,7 @@ actor QmoosaConwayEngine {
         let k = cell_key(x, y);
         switch (live_cells.get(k)) {
             case (?_) {
-                live_cells.remove(k);
+                live_cells.delete(k);
                 return false;
             };
             case null {
