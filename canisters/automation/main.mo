@@ -27,7 +27,7 @@ actor QmoosaAutomation {
     stable var job_counter : Nat = 0;
     stable var total_executions : Nat = 0;
 
-    let jobs = HashMap.HashMap<Nat, ScheduledJob>(20, Nat.equal, Nat.hash);
+    let jobs = HashMap.HashMap<Text, ScheduledJob>(20, Text.equal, Text.hash);
     var trigger_history : [TriggerLog] = [];
 
     // Seed default critical ICP native timer automations
@@ -61,9 +61,9 @@ actor QmoosaAutomation {
 
     job_counter := 3;
     total_executions := 175;
-    jobs.put(j1.job_id, j1);
-    jobs.put(j2.job_id, j2);
-    jobs.put(j3.job_id, j3);
+    jobs.put(Nat.toText(j1.job_id), j1);
+    jobs.put(Nat.toText(j2.job_id), j2);
+    jobs.put(Nat.toText(j3.job_id), j3);
 
     let init_log : TriggerLog = {
         job_id = 1;
@@ -101,12 +101,12 @@ actor QmoosaAutomation {
             execution_count = 0;
         };
 
-        jobs.put(job_counter, job);
+        jobs.put(Nat.toText(job_counter), job);
         return #Ok(job);
     };
 
     public func toggle_job(job_id : Nat) : async { #Ok : Bool; #Err : Text } {
-        switch (jobs.get(job_id)) {
+        switch (jobs.get(Nat.toText(job_id))) {
             case null return #Err("Job ID not found");
             case (?j) {
                 let updated : ScheduledJob = {
@@ -118,14 +118,14 @@ actor QmoosaAutomation {
                     last_triggered_at = j.last_triggered_at;
                     execution_count = j.execution_count;
                 };
-                jobs.put(job_id, updated);
+                jobs.put(Nat.toText(job_id), updated);
                 return #Ok(updated.is_active);
             };
         };
     };
 
     public func trigger_now(job_id : Nat) : async { #Ok : Text; #Err : Text } {
-        switch (jobs.get(job_id)) {
+        switch (jobs.get(Nat.toText(job_id))) {
             case null return #Err("Job ID not found");
             case (?j) {
                 total_executions += 1;
@@ -138,7 +138,7 @@ actor QmoosaAutomation {
                     last_triggered_at = Time.now();
                     execution_count = j.execution_count + 1;
                 };
-                jobs.put(job_id, updated);
+                jobs.put(Nat.toText(job_id), updated);
 
                 let log : TriggerLog = {
                     job_id = job_id;

@@ -24,7 +24,7 @@ actor QmoosaDAOGovernance {
   stable var total_staked : Nat = 0;
   stable var total_voting_power : Nat = 0;
 
-  let neurons = HashMap.HashMap<Nat, Neuron>(100, Nat.equal, Nat.hash);
+  let neurons = HashMap.HashMap<Text, Neuron>(100, Text.equal, Text.hash);
   var proposals_list : [Proposal] = [];
   let votes_cast = HashMap.HashMap<Text, Bool>(200, Text.equal, Text.hash);
 
@@ -35,13 +35,13 @@ actor QmoosaDAOGovernance {
     neuron_counter += 1;
     let bonus = if (dissolve_delay_seconds >= 15_552_000) 2 else 1;
     let n : Neuron = { neuron_id = neuron_counter; owner = Principal.toText(caller); staked_amount = amount; dissolve_delay_seconds = dissolve_delay_seconds; voting_power = amount * bonus; created_at = Time.now(); is_dissolving = false };
-    neurons.put(neuron_counter, n);
+    neurons.put(Nat.toText(neuron_counter), n);
     total_staked += amount;
     total_voting_power += n.voting_power;
     #Ok(n)
   };
 
-  public query func get_neuron(neuron_id : Nat) : async ?Neuron { neurons.get(neuron_id) };
+  public query func get_neuron(neuron_id : Nat) : async ?Neuron { neurons.get(Nat.toText(neuron_id)) };
 
   public shared query({ caller }) func get_my_neurons() : async [Neuron] {
     let owner = Principal.toText(caller);
@@ -64,7 +64,7 @@ actor QmoosaDAOGovernance {
 
   public shared({ caller }) func vote(args : { proposal_id : Nat; neuron_id : Nat; approve : Bool }) : async { #Ok : Text; #Err : Text } {
     if (Principal.isAnonymous(caller)) return #Err("Anonymous voting is not allowed");
-    let n = switch (neurons.get(args.neuron_id)) { case null return #Err("Neuron not found"); case (?x) x };
+    let n = switch (neurons.get(Nat.toText(args.neuron_id))) { case null return #Err("Neuron not found"); case (?x) x };
     if (n.owner != Principal.toText(caller)) return #Err("Caller does not own this neuron");
     let key = Nat.toText(args.proposal_id) # "#" # Nat.toText(args.neuron_id);
     switch (votes_cast.get(key)) { case (?_) return #Err("Neuron already voted"); case null {} };
