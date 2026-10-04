@@ -3,7 +3,6 @@ import Nat "mo:base/Nat";
 import Time "mo:base/Time";
 import HashMap "mo:base/HashMap";
 import Text "mo:base/Text";
-import Iter "mo:base/Iter";
 
 actor QmoosaAutomation {
 

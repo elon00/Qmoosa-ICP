@@ -130,12 +130,14 @@ actor QmoosaAgentOrchestrator {
                 };
 
                 var copy : [ActionLog] = [];
-                for (idx in [0 .. action_history.size() - 1]) {
+                var idx = 0;
+                while (idx < action_history.size()) {
                     if (idx == i) {
                         copy := Array.append(copy, [updated_log]);
                     } else {
                         copy := Array.append(copy, [action_history[idx]]);
                     };
+                    idx += 1;
                 };
                 action_history := copy;
             };
