@@ -5,7 +5,7 @@ import Time "mo:base/Time";
 import HashMap "mo:base/HashMap";
 import Text "mo:base/Text";
 
-actor QmoosaX402Gateway = this {
+actor QmoosaX402Gateway {
   public type ServiceInfo = { service_id : Text; name : Text; description : Text; price_qmoosa : Nat; endpoint : Text; provider : Text; category : Text };
   public type PaymentInvoice = { invoice_id : Text; service_id : Text; price : Nat; recipient : Text; expires_at : Int; status : Text; payment_header : Text };
   public type VerificationResult = { #Success : { access_token : Text; message : Text }; #Failed : Text };
@@ -24,7 +24,7 @@ actor QmoosaX402Gateway = this {
     let s = switch (services.get(service_id)) { case null return #Err("Service not found"); case (?x) x };
     invoice_counter += 1;
     let id = "x402-inv-" # Nat.toText(invoice_counter);
-    let inv : PaymentInvoice = { invoice_id=id; service_id=service_id; price=s.price_qmoosa; recipient=Principal.toText(Principal.fromActor(this)); expires_at=Time.now()+600_000_000_000; status="PENDING_PAYMENT"; payment_header="x402-token=" # id # ";amount=" # Nat.toText(s.price_qmoosa) # ";asset=QMOOSA" };
+    let inv : PaymentInvoice = { invoice_id=id; service_id=service_id; price=s.price_qmoosa; recipient=Principal.toText(Principal.fromActor(QmoosaX402Gateway)); expires_at=Time.now()+600_000_000_000; status="PENDING_PAYMENT"; payment_header="x402-token=" # id # ";amount=" # Nat.toText(s.price_qmoosa) # ";asset=QMOOSA" };
     invoices.put(id, inv);
     #PaymentRequired(inv)
   };
