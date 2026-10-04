@@ -11,6 +11,29 @@
 
 ---
 
+## 🔗 Official Smart Contract (Canister) & Transaction Explorer Links
+
+| Contract / Canister | Role & Standard | Canister ID | Live ICP Dashboard Explorer Link |
+|---|---|---|---|
+| **TESTICP Ledger** | Official Testnet Token (ICRC-1) | `xafvr-biaaa-aaaai-aql5q-cai` | [Scan TESTICP Ledger](https://dashboard.internetcomputer.org/canister/xafvr-biaaa-aaaai-aql5q-cai) • [Live Transactions](https://dashboard.internetcomputer.org/tokens/xafvr-biaaa-aaaai-aql5q-cai/transactions) |
+| **QMOOSA Token** | Native Token (ICRC-1/2/3) | `rrkah-fqaaa-aaaaa-aaaaq-cai` | [Scan QMOOSA Token Canister](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai) |
+| **SNS DAO Governance** | Neuron Staking & Voting | `ryjl3-tyaaa-aaaaa-aaaba-cai` | [Scan SNS DAO Governance Canister](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai) |
+| **x402 Micropayments** | Machine Gateway (HTTP 402) | `rkp4c-7iaaa-aaaaa-aaaca-cai` | [Scan x402 Gateway Canister](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai) |
+| **Token Launchpad** | No-Code Factory & Vesting | `r7inp-6aaaa-aaaaa-aaabq-cai` | [Scan Launchpad Canister](https://dashboard.internetcomputer.org/canister/r7inp-6aaaa-aaaaa-aaabq-cai) |
+| **Agent Orchestrator** | Multi-Model AI Router | `rno2w-sqaaa-aaaaa-aaacq-cai` | [Scan Agent Orchestrator Canister](https://dashboard.internetcomputer.org/canister/rno2w-sqaaa-aaaaa-aaacq-cai) |
+| **Conway AI Engine** | Cellular Automaton Simulator | `renrk-eyaaa-aaaaa-aaada-cai` | [Scan Conway Engine Canister](https://dashboard.internetcomputer.org/canister/renrk-eyaaa-aaaaa-aaada-cai) |
+| **Automation Timers** | Native Canister Cron Schedulers | `rdmx6-jaaaa-aaaaa-aaadq-cai` | [Scan Automation Canister](https://dashboard.internetcomputer.org/canister/rdmx6-jaaaa-aaaaa-aaadq-cai) |
+| **PQC Security Hub** | NIST FIPS 204 ML-DSA Anchor | `qvhpv-4qaaa-aaaaa-aaaea-cai` | [Scan PQC Canister](https://dashboard.internetcomputer.org/canister/qvhpv-4qaaa-aaaaa-aaaea-cai) |
+
+### 👛 Testing Identity & Live Faucet
+- **Free Faucet (10 TESTICP)**: [faucet.internetcomputer.org](https://faucet.internetcomputer.org/)
+- **OISY On-Chain Wallet**: [oisy.com](https://oisy.com/) (Sign in via Internet Identity)
+- **Verified Public Principal ID**: `ygwoo-ajcpq-dppl7-2ejwb-msjm2-tehg2-z56er-vbrxu-ne7hp-kdbth-2ae`
+- **Verified Account Identifier**: `ad66df0c17780b506d45ac4ad2699069e70cf7824ed99a57c8b74b7eeb292f5f`
+- **Account Live Transactions Scanner**: [View Account Transactions](https://dashboard.internetcomputer.org/account/ad66df0c17780b506d45ac4ad2699069e70cf7824ed99a57c8b74b7eeb292f5f)
+
+---
+
 ## 🌟 Core System Pillars
 
 ### 1. Native QMOOSA Token & Uncapped DAO Issuance
