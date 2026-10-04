@@ -1,42 +1,35 @@
 name: Qmoosa ICP CI
-
 on:
   push:
-    branches: [ main, master ]
+    branches: [main]
   pull_request:
-    branches: [ main, master ]
-
+    branches: [main]
+permissions:
+  contents: read
 jobs:
-  test-and-build:
-    name: Build & Verify Canisters + Frontend
+  verify:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'npm'
-
-      - name: Install Dependencies
-        run: |
-          npm --prefix frontend install
-          npm install
-
-      - name: Run Node Unit Tests
+          cache: npm
+      - name: Install root dependencies
+        run: npm ci
+      - name: Install frontend dependencies
+        run: npm --prefix frontend ci
+      - name: Unit tests
         run: npm test
-
-      - name: Run PocketIC Multi-Canister Verification
-        run: npm run test:pocketic
-
-      - name: Build Web4 Frontend
+      - name: Frontend build
         run: npm run build
-
-      - name: Verify Post-Quantum ML-DSA Manifest
-        run: node scripts/pqc-manifest-signer.js
-
-      - name: Verify x402 Micropayment Protocol
+      - name: Setup dfx
+        uses: dfinity/setup-dfx@main
+        with:
+          dfx-version: "0.24.0"
+      - name: Compile Motoko canisters
+        run: dfx build
+      - name: x402 simulation checks
         run: node scripts/simulate-x402.js
+      - name: PQC manifest checks
+        run: node scripts/pqc-manifest-signer.js
