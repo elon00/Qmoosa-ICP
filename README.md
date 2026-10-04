@@ -11,27 +11,32 @@
 
 ---
 
-## 🔗 Official Smart Contract (Canister) & Transaction Explorer Links
+## 🔗 Network & Verification Status
 
-| Contract / Canister | Role & Standard | Canister ID | Live ICP Dashboard Explorer Link |
-|---|---|---|---|
-| **TESTICP Ledger** | Official Testnet Token (ICRC-1) | `xafvr-biaaa-aaaai-aql5q-cai` | [Scan TESTICP Ledger](https://dashboard.internetcomputer.org/canister/xafvr-biaaa-aaaai-aql5q-cai) • [Live Transactions](https://dashboard.internetcomputer.org/tokens/xafvr-biaaa-aaaai-aql5q-cai/transactions) |
-| **QMOOSA Token** | Native Token (ICRC-1/2/3) | `rrkah-fqaaa-aaaaa-aaaaq-cai` | [Scan QMOOSA Token Canister](https://dashboard.internetcomputer.org/canister/rrkah-fqaaa-aaaaa-aaaaq-cai) |
-| **SNS DAO Governance** | Neuron Staking & Voting | `ryjl3-tyaaa-aaaaa-aaaba-cai` | [Scan SNS DAO Governance Canister](https://dashboard.internetcomputer.org/canister/ryjl3-tyaaa-aaaaa-aaaba-cai) |
-| **x402 Micropayments** | Machine Gateway (HTTP 402) | `rkp4c-7iaaa-aaaaa-aaaca-cai` | [Scan x402 Gateway Canister](https://dashboard.internetcomputer.org/canister/rkp4c-7iaaa-aaaaa-aaaca-cai) |
-| **Token Launchpad** | No-Code Factory & Vesting | `r7inp-6aaaa-aaaaa-aaabq-cai` | [Scan Launchpad Canister](https://dashboard.internetcomputer.org/canister/r7inp-6aaaa-aaaaa-aaabq-cai) |
-| **Agent Orchestrator** | Multi-Model AI Router | `rno2w-sqaaa-aaaaa-aaacq-cai` | [Scan Agent Orchestrator Canister](https://dashboard.internetcomputer.org/canister/rno2w-sqaaa-aaaaa-aaacq-cai) |
-| **Conway AI Engine** | Cellular Automaton Simulator | `renrk-eyaaa-aaaaa-aaada-cai` | [Scan Conway Engine Canister](https://dashboard.internetcomputer.org/canister/renrk-eyaaa-aaaaa-aaada-cai) |
-| **Automation Timers** | Native Canister Cron Schedulers | `rdmx6-jaaaa-aaaaa-aaadq-cai` | [Scan Automation Canister](https://dashboard.internetcomputer.org/canister/rdmx6-jaaaa-aaaaa-aaadq-cai) |
-| **PQC Security Hub** | NIST FIPS 204 ML-DSA Anchor | `qvhpv-4qaaa-aaaaa-aaaea-cai` | [Scan PQC Canister](https://dashboard.internetcomputer.org/canister/qvhpv-4qaaa-aaaaa-aaaea-cai) |
+> **Important:** Qmoosa ICP currently has a validated source repository and localhost frontend workflow, but no verified Qmoosa mainnet canister IDs are committed yet. Do not treat example/system canister IDs as Qmoosa deployments.
 
-### 👛 Testing Identity & Live Faucet
-- **Free Faucet (10 TESTICP)**: [faucet.internetcomputer.org](https://faucet.internetcomputer.org/)
-- **OISY On-Chain Wallet**: [oisy.com](https://oisy.com/) (Sign in via Internet Identity)
-- **Verified Public Principal ID**: `ygwoo-ajcpq-dppl7-2ejwb-msjm2-tehg2-z56er-vbrxu-ne7hp-kdbth-2ae`
-- **Verified Account Identifier**: `ad66df0c17780b506d45ac4ad2699069e70cf7824ed99a57c8b74b7eeb292f5f`
-- **Account Live Transactions Scanner**: [View Account Transactions](https://dashboard.internetcomputer.org/account/ad66df0c17780b506d45ac4ad2699069e70cf7824ed99a57c8b74b7eeb292f5f)
+| Resource | ID / URL | Status |
+|---|---|---|
+| **TESTICP Ledger** | `xafvr-biaaa-aaaai-aql5q-cai` | Official test-value ledger for faucet/testing |
+| **ICP Ledger (mainnet)** | `ryjl3-tyaaa-aaaaa-aaaba-cai` | Official ICP ledger — **not Qmoosa DAO** |
+| **Cycles Minting Canister** | `rkp4c-7iaaa-aaaaa-aaaca-cai` | ICP system canister — **not Qmoosa x402** |
+| **NNS Root** | `r7inp-6aaaa-aaaaa-aaabq-cai` | ICP system canister — **not Qmoosa Launchpad** |
+| **Qmoosa GitHub** | https://github.com/elon00/Qmoosa-ICP | Source of record |
 
+### 👛 Testing identity & faucet
+- **Free TESTICP Faucet**: https://faucet.internetcomputer.org/
+- **OISY Wallet**: https://oisy.com/
+- **ICP Dashboard**: https://dashboard.internetcomputer.org/
+- Never publish seed phrases/private keys. Public principals/account identifiers may be used for testing and scanner lookups.
+
+### Deployment truth source
+A Qmoosa canister is considered deployed only after:
+1. `dfx deploy --network ic` succeeds,
+2. its generated ID is captured with `dfx canister id --network ic <name>`,
+3. the ID is written to a deployment manifest / `canister_ids.json`, and
+4. the canister is independently visible on ICP Dashboard.
+
+Until those four checks pass, Qmoosa features must be described as **local/demo/staging**, not mainnet-live.
 ---
 
 ## 🌟 Core System Pillars
@@ -153,7 +158,7 @@ npm run deploy:mainnet
 - **Release Version**: `1.0.0`
 - **Target Bytecode SHA-256**: `e7b6ed5a8efb2f8177b958cb35778621822b94ba78d5eb578747fa591dfc25bc`
 - **Post-Quantum Standard**: `NIST FIPS 204 (ML-DSA-65)`
-- **Quantum Resistance Status**: `VERIFIED & QUANTUM RESILIENT`
+- **Quantum Resistance Status**: `PQC architecture present; cryptographic ML-DSA verifier integration still pending`
 
 ---
 
