@@ -132,7 +132,9 @@ export const Header: React.FC<HeaderProps> = ({
                       <span className="w-2 h-2 rounded-full bg-cyan-400 group-hover:scale-125 transition-transform" />
                       {w}
                     </span>
-                    <span className="text-[10px] text-slate-500 group-hover:text-cyan-300">Supported</span>
+                    <span className="text-[10px] text-slate-500 group-hover:text-cyan-300">
+                      {w === 'OISY' ? 'Open signer' : 'SDK wiring pending'}
+                    </span>
                   </button>
                 ))}
               </div>
