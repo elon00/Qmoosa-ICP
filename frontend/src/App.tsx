@@ -50,8 +50,8 @@ import {
 
 export const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
-  const [activeWallet, setActiveWallet] = useState<WalletType | null>('Internet Identity');
-  const [walletAddress, setWalletAddress] = useState('2vxsx-fae-qmoosa-genesis-principal');
+  const [activeWallet, setActiveWallet] = useState<WalletType | null>(null);
+  const [walletAddress, setWalletAddress] = useState('');
   const [isQROpen, setIsQROpen] = useState(false);
 
   const navItems: { id: TabType; label: string; icon: React.ReactNode }[] = [
@@ -72,8 +72,12 @@ export const App: React.FC = () => {
       <Header
         activeWallet={activeWallet}
         onConnectWallet={(w) => {
-          setActiveWallet(w);
-          setWalletAddress(`2vxsx-fae-${w.toLowerCase().replace(/\s+/g, '-')}-user`);
+          if (w === 'OISY') {
+            window.open('https://oisy.com/sign', '_blank', 'noopener,noreferrer');
+            return;
+          }
+          setActiveWallet(null);
+          setWalletAddress('');
         }}
         onDisconnectWallet={() => {
           setActiveWallet(null);
