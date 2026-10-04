@@ -27,7 +27,14 @@ jobs:
         with:
           dfx-version: "0.24.0"
       - name: Compile Motoko canisters
-        run: dfx build
+        shell: bash
+        run: |
+          dfx identity new ci --storage-mode plaintext --force >/dev/null 2>&1 || true
+          dfx identity use ci >/dev/null 2>&1 || true
+          dfx start --background --clean
+          dfx canister create --all
+          dfx build
+          dfx stop
       - name: x402 simulation checks
         run: node scripts/simulate-x402.js
       - name: PQC manifest checks
