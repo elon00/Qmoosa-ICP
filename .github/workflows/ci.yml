@@ -20,6 +20,8 @@ jobs:
         run: npm --prefix frontend ci
       - name: Unit tests
         run: npm test
+      - name: Frontend dependency audit
+        run: npm --prefix frontend audit --audit-level=high
       - name: Frontend build
         run: npm run build
       - name: Setup dfx
