@@ -1,0 +1,76 @@
+name: Qmoosa Reality-Gated Mission
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qmoosa-reality-mission-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  reality-gates:
+    name: Genuine technical reality gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        run: npm --prefix frontend ci
+
+      - name: Unit tests
+        run: npm test
+
+      - name: High severity dependency audit
+        run: npm run audit:deps
+
+      - name: Frontend production build
+        run: npm run build
+
+      - name: Setup dfx
+        uses: dfinity/setup-dfx@main
+        with:
+          dfx-version: "0.24.0"
+
+      - name: Compile every Motoko canister on local replica
+        shell: bash
+        run: |
+          set -euo pipefail
+          trap 'dfx stop || true' EXIT
+          dfx identity new ci --storage-mode plaintext --force >/dev/null 2>&1 || true
+          dfx identity use ci >/dev/null 2>&1 || true
+          dfx start --background --clean
+          dfx canister create --all
+          dfx build
+
+      - name: x402 simulation gate
+        run: node scripts/simulate-x402.js
+
+      - name: PQC metadata truth check
+        run: node scripts/pqc-manifest-signer.js
+
+      - name: Strict mainnet readiness gate (spends zero cycles)
+        run: npm run readiness:mainnet
+
+      - name: Mission completion marker
+        if: success()
+        run: |
+          echo "=============================================================="
+          echo "MISSION COMPLETED SUCCESSFULLY — ALL REALITY GATES ARE GREEN"
+          echo "No mainnet deployment/cycle spend was performed by this job."
+          echo "=============================================================="
