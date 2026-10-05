@@ -1,45 +1,39 @@
-Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "       QMOOSA ICP -- AUTONOMOUS ONE-CLICK MASTER PIPELINE        " -ForegroundColor Cyan
-Write-Host "=================================================================" -ForegroundColor Cyan
+$ErrorActionPreference = "Stop"
 
-Write-Host "[1/8] Validating Node, DFX, and Agent Skills environment..." -ForegroundColor Yellow
-node -v
-Write-Host "Node.js runtime validated." -ForegroundColor Green
-
-Write-Host "[2/8] Running Unit Test Suite..." -ForegroundColor Yellow
-npm test
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-Write-Host "[3/8] Running PocketIC Multi-Canister Harness Verification..." -ForegroundColor Yellow
-npm run test:pocketic
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-Write-Host "[4/8] Building High-Performance Web4 Frontend..." -ForegroundColor Yellow
-npm run build
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-
-Write-Host "[5/8] Validating Candid Interfaces and Canister Boundaries..." -ForegroundColor Yellow
-Get-ChildItem -Path "canisters" -Filter "*.did" -Recurse | ForEach-Object {
-    Write-Host "  -> Candid spec verified: $($_.FullName)" -ForegroundColor DarkGray
+function Run-Step($label, $command) {
+    Write-Host $label -ForegroundColor Yellow
+    Invoke-Expression $command
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
-Write-Host "[6/8] Auditing NIST FIPS 204 Post-Quantum Manifests..." -ForegroundColor Yellow
-node scripts/pqc-manifest-signer.js
+Write-Host "=================================================================" -ForegroundColor Cyan
+Write-Host " QMOOSA ICP -- ONE-CLICK TECHNICAL VALIDATION (NO MAINNET SPEND) " -ForegroundColor Cyan
+Write-Host "=================================================================" -ForegroundColor Cyan
 
-Write-Host "[7/8] Simulating x402 Bazaar Machine Micropayment Flow..." -ForegroundColor Yellow
-node scripts/simulate-x402.js
+Run-Step "[1/10] Runtime validation..." "node -v"
+Run-Step "[2/10] Unit tests..." "npm test"
+Run-Step "[3/10] Frontend dependency security audit..." "npm run audit:deps"
+Run-Step "[4/10] Frontend production build..." "npm run build"
+Run-Step "[5/10] Rust lockfile reproducibility..." "cargo generate-lockfile"
 
-Write-Host "[8/8] Canister Deployment Readiness Check..." -ForegroundColor Yellow
-Write-Host "  -> ICRC Token Canister: READY" -ForegroundColor Green
-Write-Host "  -> SNS DAO Governance Canister: READY" -ForegroundColor Green
-Write-Host "  -> Token Launchpad Canister: READY" -ForegroundColor Green
-Write-Host "  -> x402 Micropayment Gateway: READY" -ForegroundColor Green
-Write-Host "  -> Multi-Model Agent Orchestrator: READY" -ForegroundColor Green
-Write-Host "  -> Conway Automaton Engine: READY" -ForegroundColor Green
-Write-Host "  -> Native Canister Timers: READY" -ForegroundColor Green
-Write-Host "  -> Post-Quantum Security Hub: READY" -ForegroundColor Green
-Write-Host "  -> Frontend Assets Canister: READY" -ForegroundColor Green
+Write-Host "[6/10] Candid inventory..." -ForegroundColor Yellow
+$didFiles = Get-ChildItem -Path "canisters" -Filter "*.did" -Recurse
+if (-not $didFiles) {
+    Write-Host "WARN: no checked-in .did files found" -ForegroundColor DarkYellow
+} else {
+    $didFiles | ForEach-Object { Write-Host "  -> $($_.FullName)" -ForegroundColor DarkGray }
+}
+
+Run-Step "[7/10] PQC manifest metadata truth check..." "node scripts/pqc-manifest-signer.js"
+Run-Step "[8/10] x402 simulation checks..." "node scripts/simulate-x402.js"
+
+if (-not (Test-Path "node_modules/@dfinity/pic")) {
+    Run-Step "[9/10] Installing PocketIC JS client for this validation run..." "npm install --no-save @dfinity/pic@0.22.0"
+}
+Run-Step "[9/10] Real PocketIC integration..." "npm run test:pocketic"
+Run-Step "[10/10] Strict ICP mainnet readiness gate..." "npm run readiness:mainnet"
 
 Write-Host "=================================================================" -ForegroundColor Cyan
-Write-Host "  QMOOSA ICP -- ALL CHECKS PASSED. READY FOR CANISTER DEPLOYMENT! " -ForegroundColor Green
+Write-Host " MISSION COMPLETED SUCCESSFULLY -- ALL REALITY GATES ARE GREEN " -ForegroundColor Green
+Write-Host " NO MAINNET DEPLOYMENT OR CYCLE SPEND WAS PERFORMED " -ForegroundColor Green
 Write-Host "=================================================================" -ForegroundColor Cyan
