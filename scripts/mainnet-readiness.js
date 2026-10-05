@@ -2,38 +2,54 @@ import fs from 'node:fs';
 
 const failures = [];
 const warnings = [];
-const mustExist = [
+
+const required = [
   'dfx.json',
+  'Cargo.toml',
+  'canisters/pqc/Cargo.toml',
+  'canisters/pqc/src/lib.rs',
+  'canisters/pqc/pqc.did',
+  'tests/pocketic.integration.js',
   'scripts/deploy-mainnet.sh',
-  'canisters/pqc/main.mo',
   'frontend/package-lock.json'
 ];
 
-for (const file of mustExist) {
+for (const file of required) {
   if (!fs.existsSync(file)) failures.push(`missing required file: ${file}`);
 }
 
-const pqc = fs.readFileSync('canisters/pqc/main.mo', 'utf8');
-if (pqc.includes('No in-canister FIPS 204 verifier is integrated')) {
-  failures.push('PQC: real in-canister FIPS 204 signature verification is not integrated');
-}
-if (pqc.includes('verified_manifests=0')) {
-  warnings.push('PQC report currently hard-codes zero verified manifests');
-}
-
-const pocketicPath = 'tests/pocketic_mock.js';
-if (fs.existsSync(pocketicPath)) {
-  failures.push('Integration testing: tests/pocketic_mock.js is a simulation, not a real PocketIC execution');
+if (fs.existsSync('canisters/pqc/src/lib.rs')) {
+  const pqc = fs.readFileSync('canisters/pqc/src/lib.rs', 'utf8');
+  if (!pqc.includes('fips204') || !pqc.includes('pk.verify')) {
+    failures.push('PQC: Rust canister does not contain real FIPS 204 ML-DSA verification');
+  }
 }
 
-const deploymentManifestCandidates = ['canister_ids.json', '.dfx/ic/canister_ids.json', 'deployments/mainnet.json'];
-if (!deploymentManifestCandidates.some((p) => fs.existsSync(p))) {
-  warnings.push('No Qmoosa mainnet canister-ID manifest is committed (expected before claiming mainnet-live)');
+if (fs.existsSync('tests/pocketic.integration.js')) {
+  const pic = fs.readFileSync('tests/pocketic.integration.js', 'utf8');
+  if (!pic.includes('@dfinity/pic') || !pic.includes('installCode')) {
+    failures.push('PocketIC: integration test is not performing real WASM installation');
+  }
+}
+
+const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+if (pkg.scripts?.['test:pocketic'] !== 'node tests/pocketic.integration.js') {
+  failures.push('PocketIC: package script is not wired to the real integration test');
+}
+
+const dfx = JSON.parse(fs.readFileSync('dfx.json', 'utf8'));
+if (dfx.canisters?.pqc?.type !== 'rust') {
+  failures.push('PQC: dfx.json is not configured to build the Rust verifier canister');
 }
 
 const deploy = fs.readFileSync('scripts/deploy-mainnet.sh', 'utf8');
 if (!deploy.includes('readiness:mainnet')) {
   failures.push('deploy-mainnet.sh is not protected by the strict no-cycles readiness gate');
+}
+
+const deploymentManifestCandidates = ['canister_ids.json', '.dfx/ic/canister_ids.json', 'deployments/mainnet.json'];
+if (!deploymentManifestCandidates.some((p) => fs.existsSync(p))) {
+  warnings.push('No Qmoosa mainnet canister-ID manifest is committed yet; this is expected before first mainnet deployment');
 }
 
 console.log('=== Qmoosa ICP Mainnet Readiness — NO CYCLES SPENT ===');
@@ -43,4 +59,4 @@ if (failures.length) {
   console.error(`Mainnet readiness: BLOCKED (${failures.length} blocking gate(s))`);
   process.exit(1);
 }
-console.log('Mainnet readiness: GREEN');
+console.log('Mainnet readiness: GREEN (static preflight)');
