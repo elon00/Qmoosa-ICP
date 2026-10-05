@@ -13,7 +13,9 @@
     "deploy:mainnet": "bash scripts/deploy-mainnet.sh",
     "mission": "bash scripts/qmoosa-mission.sh",
     "mission:ps1": "powershell -ExecutionPolicy Bypass -File scripts/qmoosa-mission.ps1",
-    "skills:check": "npx skills check"
+    "skills:check": "npx skills check",
+    "audit:deps": "npm --prefix frontend audit --audit-level=high",
+    "readiness:mainnet": "node scripts/mainnet-readiness.js"
   },
   "keywords": [
     "icp",
