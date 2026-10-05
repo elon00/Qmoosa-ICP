@@ -1,0 +1,13 @@
+[package]
+name = "qmoosa_pqc"
+version = "1.0.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+candid = "0.10.28"
+fips204 = { version = "0.4.6", default-features = false }
+ic-cdk = "0.20.3"
+serde = { version = "1", features = ["derive"] }
