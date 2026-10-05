@@ -47,6 +47,9 @@ jobs:
         with:
           dfx-version: "0.24.0"
 
+      - name: Setup Rust WASM target
+        run: rustup target add wasm32-unknown-unknown
+
       - name: Compile every Motoko canister on local replica
         shell: bash
         run: |
@@ -57,6 +60,12 @@ jobs:
           dfx start --background --clean
           dfx canister create --all
           dfx build
+
+      - name: Install PocketIC JS client
+        run: npm install --no-save @dfinity/pic@0.22.0
+
+      - name: Real PocketIC integration gate
+        run: npm run test:pocketic
 
       - name: x402 simulation gate
         run: node scripts/simulate-x402.js
