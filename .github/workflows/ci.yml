@@ -28,6 +28,12 @@ jobs:
         uses: dfinity/setup-dfx@main
         with:
           dfx-version: "0.24.0"
+
+      - name: Setup Rust WASM target
+        run: rustup target add wasm32-unknown-unknown
+
+      - name: Generate deterministic Rust lockfile
+        run: cargo generate-lockfile
       - name: Compile Motoko canisters
         shell: bash
         run: |
