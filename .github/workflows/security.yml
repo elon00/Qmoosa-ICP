@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Verify NIST FIPS 204 Lattice Parameters
+      - name: Verify PQC manifest metadata truth
         run: node scripts/pqc-manifest-signer.js
 
       - name: Scan for Secret Leaks
