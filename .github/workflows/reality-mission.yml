@@ -50,6 +50,9 @@ jobs:
       - name: Setup Rust WASM target
         run: rustup target add wasm32-unknown-unknown
 
+      - name: Generate deterministic Rust lockfile
+        run: cargo generate-lockfile
+
       - name: Compile every Motoko canister on local replica
         shell: bash
         run: |
