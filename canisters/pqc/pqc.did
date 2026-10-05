@@ -34,8 +34,8 @@ service : {
     get_manifest : (manifest_id : text) -> (opt PqcManifest) query;
 
     get_pqc_security_report : () -> (record {
-        total_pqc_manifests : nat;
-        verified_manifests : nat;
+        total_pqc_manifests : nat64;
+        verified_manifests : nat64;
         supported_standards : vec text;
         quantum_resistance_status : text;
     }) query;
