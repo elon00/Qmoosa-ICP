@@ -94,8 +94,8 @@ fn verify_manifest(m: &PqcManifest) -> Result<bool, String> {
     }
 
     let message = decode_hex::<32>(&m.sha256_hash)?;
-    let pk_bytes = decode_hex::<PK_LEN>(&m.public_key_hex)?;
-    let signature = decode_hex::<SIG_LEN>(&m.signature_hex)?;
+    let pk_bytes = decode_hex::<{ PK_LEN }>(&m.public_key_hex)?;
+    let signature = decode_hex::<{ SIG_LEN }>(&m.signature_hex)?;
 
     let pk = PublicKey::try_from_bytes(pk_bytes)
         .map_err(|e| format!("invalid ML-DSA-65 public key: {e}"))?;
