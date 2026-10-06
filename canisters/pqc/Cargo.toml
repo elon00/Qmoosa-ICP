@@ -8,6 +8,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 candid = "0.10.28"
-fips204 = { version = "0.4.6", default-features = false }
+fips204 = { version = "0.4.6", default-features = false, features = ["ml-dsa-65"] }
 ic-cdk = "0.20.3"
 serde = { version = "1", features = ["derive"] }
