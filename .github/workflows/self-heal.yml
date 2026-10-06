@@ -1,0 +1,88 @@
+name: Qmoosa Safe Self-Healing
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - "Qmoosa ICP CI"
+      - "Qmoosa Reality-Gated Mission"
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: qmoosa-self-heal-main
+  cancel-in-progress: false
+
+jobs:
+  heal:
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'failure' &&
+       github.event.workflow_run.head_branch == 'main')
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup dfx
+        uses: dfinity/setup-dfx@main
+        with:
+          dfx-version: "0.24.0"
+
+      - name: Setup Rust WASM target
+        run: rustup target add wasm32-unknown-unknown
+
+      - name: Safe reproducibility healing
+        shell: bash
+        run: |
+          chmod +x scripts/self-heal.sh
+          ./scripts/self-heal.sh
+
+      - name: Build all ICP canisters
+        shell: bash
+        run: |
+          set -euo pipefail
+          trap 'dfx stop || true' EXIT
+          dfx identity new ci-heal --storage-mode plaintext --force >/dev/null 2>&1 || true
+          dfx identity use ci-heal >/dev/null 2>&1 || true
+          dfx start --background --clean
+          dfx canister create --all
+          dfx build
+
+      - name: Install PocketIC client
+        run: npm install --no-save @dfinity/pic@0.22.0
+
+      - name: Real PocketIC verification
+        run: npm run test:pocketic
+
+      - name: Commit reproducibility repairs only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add Cargo.lock 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "No safe repository repair needed."
+            exit 0
+          fi
+          git config user.name "qmoosa-self-heal[bot]"
+          git config user.email "qmoosa-self-heal[bot]@users.noreply.github.com"
+          git commit -m "chore(self-heal): refresh reproducibility lockfile"
+          git push origin HEAD:main
+
+      - name: Healing truth marker
+        if: success()
+        run: |
+          echo "SAFE SELF-HEALING PASS: GREEN"
+          echo "No mainnet deploy or cycle-spending command was executed."
