@@ -2,6 +2,8 @@ name: Qmoosa Safe Self-Healing
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
   workflow_run:
     workflows:
       - "Qmoosa ICP CI"
@@ -19,6 +21,7 @@ jobs:
   heal:
     if: >
       github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'schedule' ||
       (github.event.workflow_run.conclusion == 'failure' &&
        github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
