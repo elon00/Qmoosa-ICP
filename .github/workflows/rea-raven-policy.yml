@@ -1,0 +1,27 @@
+name: REA Raven Adoption Policy
+on:
+  push:
+    paths:
+      - 'scripts/rea_raven_policy_gate.py'
+      - 'docs/REA_RAVEN_ADOPTION.md'
+      - '.github/workflows/rea-raven-policy.yml'
+  pull_request:
+    paths:
+      - 'scripts/rea_raven_policy_gate.py'
+      - 'docs/REA_RAVEN_ADOPTION.md'
+      - '.github/workflows/rea-raven-policy.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  policy-self-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile policy verifier
+        run: python -m py_compile scripts/rea_raven_policy_gate.py
+      - name: Verify policy structure (NOT integration proof)
+        run: python scripts/rea_raven_policy_gate.py --self-test
