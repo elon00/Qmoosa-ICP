@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { PocketIc } from '@dfinity/pic';
+import { PocketIc, PocketIcServer } from '@dfinity/pic';
 
 const canisters = [
   'token',
@@ -13,7 +13,8 @@ const canisters = [
   'pqc',
 ];
 
-const pic = await PocketIc.create();
+const picServer = await PocketIcServer.start();
+const pic = await PocketIc.create(picServer.getUrl());
 
 try {
   for (const name of canisters) {
@@ -28,4 +29,5 @@ try {
   console.log(`PocketIC integration: PASS (${canisters.length} real canister WASMs installed)`);
 } finally {
   await pic.tearDown();
+  await picServer.stop();
 }
