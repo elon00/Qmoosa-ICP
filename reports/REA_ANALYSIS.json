@@ -1,0 +1,242 @@
+{
+  "engine": "REA_Reverse_Engineer_Anything",
+  "status": "STRUCTURE_RECONSTRUCTED",
+  "analyzed_files": 78,
+  "manifest": {
+    "AGENTS.md": {
+      "bytes": 2574
+    },
+    "Cargo.lock": {
+      "bytes": 19248
+    },
+    "Cargo.toml": {
+      "bytes": 144
+    },
+    "dfx.json": {
+      "bytes": 1349
+    },
+    "package.json": {
+      "bytes": 1178
+    },
+    "README.md": {
+      "bytes": 9353
+    },
+    "skills-lock.json": {
+      "bytes": 501
+    },
+    "agents\\qmoosa_agents.ts": {
+      "bytes": 6020
+    },
+    "docs\\ARCHITECTURE.md": {
+      "bytes": 6985
+    },
+    "docs\\CONWAY_AUTOMATON.md": {
+      "bytes": 1387
+    },
+    "docs\\DEPLOYMENT_GUIDE.md": {
+      "bytes": 1794
+    },
+    "docs\\MISSION_DESIGN.md": {
+      "bytes": 2508
+    },
+    "docs\\OISY_AND_TESTICP_TESTING.md": {
+      "bytes": 4394
+    },
+    "docs\\OISY_WALLET_INTEGRATION.md": {
+      "bytes": 1470
+    },
+    "docs\\PQC_SECURITY.md": {
+      "bytes": 1705
+    },
+    "docs\\TOKENOMICS_AND_DAO.md": {
+      "bytes": 2913
+    },
+    "docs\\X402_BAZAAR.md": {
+      "bytes": 2637
+    },
+    "frontend\\index.html": {
+      "bytes": 1575
+    },
+    "frontend\\package-lock.json": {
+      "bytes": 64325
+    },
+    "frontend\\package.json": {
+      "bytes": 507
+    },
+    "frontend\\tsconfig.json": {
+      "bytes": 530
+    },
+    "frontend\\vite.config.ts": {
+      "bytes": 254
+    },
+    "scripts\\deploy-local.sh": {
+      "bytes": 215
+    },
+    "scripts\\deploy-mainnet.sh": {
+      "bytes": 950
+    },
+    "scripts\\generate-test-principal.js": {
+      "bytes": 2164
+    },
+    "scripts\\mainnet-readiness.js": {
+      "bytes": 2381
+    },
+    "scripts\\pqc-manifest-signer.js": {
+      "bytes": 1006
+    },
+    "scripts\\qmoosa-mission.ps1": {
+      "bytes": 2094
+    },
+    "scripts\\qmoosa-mission.sh": {
+      "bytes": 1225
+    },
+    "scripts\\rea_inspector.py": {
+      "bytes": 1485
+    },
+    "scripts\\rsi_engine.py": {
+      "bytes": 2039
+    },
+    "scripts\\self-heal.sh": {
+      "bytes": 862
+    },
+    "scripts\\simulate-x402.js": {
+      "bytes": 902
+    },
+    "tests\\conway.test.js": {
+      "bytes": 1019
+    },
+    "tests\\dao.test.js": {
+      "bytes": 1107
+    },
+    "tests\\pocketic.integration.js": {
+      "bytes": 998
+    },
+    "tests\\pocketic_mock.js": {
+      "bytes": 1303
+    },
+    "tests\\reality_check_harness.py": {
+      "bytes": 1250
+    },
+    "tests\\token.test.js": {
+      "bytes": 1248
+    },
+    "tests\\x402.test.js": {
+      "bytes": 1045
+    },
+    ".github\\workflows\\ci.yml": {
+      "bytes": 1482
+    },
+    ".github\\workflows\\qmoosa-rsi-rea-sync.yml": {
+      "bytes": 531
+    },
+    ".github\\workflows\\reality-mission.yml": {
+      "bytes": 2524
+    },
+    ".github\\workflows\\security.yml": {
+      "bytes": 814
+    },
+    ".github\\workflows\\self-heal.yml": {
+      "bytes": 2580
+    },
+    "canisters\\agent_orchestrator\\agent.did": {
+      "bytes": 1105
+    },
+    "canisters\\agent_orchestrator\\main.mo": {
+      "bytes": 5426
+    },
+    "canisters\\automation\\automation.did": {
+      "bytes": 954
+    },
+    "canisters\\automation\\main.mo": {
+      "bytes": 5667
+    },
+    "canisters\\conway_engine\\conway.did": {
+      "bytes": 631
+    },
+    "canisters\\conway_engine\\main.mo": {
+      "bytes": 4382
+    },
+    "canisters\\dao_governance\\dao.did": {
+      "bytes": 2037
+    },
+    "canisters\\dao_governance\\main.mo": {
+      "bytes": 6701
+    },
+    "canisters\\launchpad\\launchpad.did": {
+      "bytes": 1204
+    },
+    "canisters\\launchpad\\main.mo": {
+      "bytes": 4105
+    },
+    "canisters\\pqc\\Cargo.toml": {
+      "bytes": 295
+    },
+    "canisters\\pqc\\main.mo": {
+      "bytes": 2222
+    },
+    "canisters\\pqc\\pqc.did": {
+      "bytes": 1123
+    },
+    "canisters\\token\\main.mo": {
+      "bytes": 5359
+    },
+    "canisters\\token\\token.did": {
+      "bytes": 1898
+    },
+    "canisters\\x402_gateway\\main.mo": {
+      "bytes": 3082
+    },
+    "canisters\\x402_gateway\\x402.did": {
+      "bytes": 1160
+    },
+    "canisters\\pqc\\src\\lib.rs": {
+      "bytes": 5167
+    },
+    "frontend\\src\\App.tsx": {
+      "bytes": 5558
+    },
+    "frontend\\src\\main.tsx": {
+      "bytes": 257
+    },
+    "frontend\\src\\components\\AgentChatTab.tsx": {
+      "bytes": 11425
+    },
+    "frontend\\src\\components\\AutomationTab.tsx": {
+      "bytes": 8285
+    },
+    "frontend\\src\\components\\ChainFusionTab.tsx": {
+      "bytes": 7464
+    },
+    "frontend\\src\\components\\ConwayTab.tsx": {
+      "bytes": 10342
+    },
+    "frontend\\src\\components\\DashboardTab.tsx": {
+      "bytes": 12398
+    },
+    "frontend\\src\\components\\Header.tsx": {
+      "bytes": 6799
+    },
+    "frontend\\src\\components\\LaunchpadTab.tsx": {
+      "bytes": 11092
+    },
+    "frontend\\src\\components\\PQCTab.tsx": {
+      "bytes": 7624
+    },
+    "frontend\\src\\components\\QRModal.tsx": {
+      "bytes": 7018
+    },
+    "frontend\\src\\components\\TokenDAOTab.tsx": {
+      "bytes": 14521
+    },
+    "frontend\\src\\components\\X402BazaarTab.tsx": {
+      "bytes": 10368
+    },
+    "frontend\\src\\styles\\index.css": {
+      "bytes": 1370
+    },
+    "frontend\\src\\types\\index.ts": {
+      "bytes": 1748
+    }
+  },
+  "timestamp": 1794023094
+}
