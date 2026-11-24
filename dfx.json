@@ -31,9 +31,8 @@
       "type": "motoko"
     },
     "pqc": {
-      "candid": "canisters/pqc/pqc.did",
-      "package": "qmoosa_pqc",
-      "type": "rust"
+      "main": "canisters/pqc/main.mo",
+      "type": "motoko"
     },
     "frontend": {
       "dependencies": [

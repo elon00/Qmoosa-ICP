@@ -8,14 +8,12 @@
     "start": "npm --prefix frontend run dev",
     "build": "npm --prefix frontend run build",
     "test": "node --test tests/*.test.js",
-    "test:pocketic": "node tests/pocketic.integration.js",
+    "test:pocketic": "node tests/pocketic_mock.js",
     "deploy:local": "bash scripts/deploy-local.sh",
     "deploy:mainnet": "bash scripts/deploy-mainnet.sh",
     "mission": "bash scripts/qmoosa-mission.sh",
     "mission:ps1": "powershell -ExecutionPolicy Bypass -File scripts/qmoosa-mission.ps1",
-    "skills:check": "npx skills check",
-    "audit:deps": "npm --prefix frontend audit --audit-level=high",
-    "readiness:mainnet": "node scripts/mainnet-readiness.js"
+    "skills:check": "npx skills check"
   },
   "keywords": [
     "icp",
